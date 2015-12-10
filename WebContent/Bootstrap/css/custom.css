@@ -1,0 +1,59 @@
+body.bodyWrap{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.searchButtons{
+	text-align: center;
+}
+.searchSection{
+	max-width: 786px;
+}
+.imageSection{
+	text-align: center;
+}
+.searchContainer.jumbotron{
+background: #fff;
+}
+.form-group.searchButtons > button {
+    margin-right: 10px;
+}
+.resultList li.lead{
+    padding: 10px;
+    border-radius: 10px;
+    
+}
+.resultList li.lead:nth-child(even){
+	background-color:#eee;
+}
+.resultList li.lead:nth-child(odd){
+ background-color:#fff;
+}
+.positiveProgress .glyphicon{
+	margin-right: 5px;
+}
+.polScore{
+	padding-left:10px
+}
+.userImageIcon, .tweetHeader > div{
+	display: inline-block;
+}
+.userImageIcon img {
+    width: 50px;
+    border-radius: 10px;
+}
+.userName{
+	margin-left: 20px;
+}
+.tweetBody {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.tweetTrailer > a:hover{
+	text-decoration: none;
+}
+.filterSection input[type=checkbox]{
+	margin-right: 10px;
+}
+/* Media queries */
+
+/* Media queries */

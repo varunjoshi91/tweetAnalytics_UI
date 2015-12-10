@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>CheesePiazza</title>
+
+    <!-- Bootstrap -->
+    <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="Bootstrap/css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body class="bodyWrap">
+    
+    <div class="container">
+    
+    	<div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation"><a href="#">About</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Cheese Piazza</h3>
+      </div>
+
+      <div class="container searchSection">
+      	<div class="searchContainer jumbotron">
+      		<div class="imageSection form-group"> 
+      			
+
+<img src="Bootstrap/img/doodle.png" alt="Search On!" />
+      		</div>
+      		<div class="searchBar">
+      			<form method="post" action="/intro/AlchemyCall">
+      				
+      				<div class="form-group">
+					    <input type="text" class="form-control" id="searchQueryText" name="searchQueryText" placeholder="sliceIt">
+					</div>
+					<div class="form-group searchButtons">
+					    <button type="button" class="btn btn-warning" id="searchButtonClick">Search</button>
+					    <!-- <button type="submit" class="btn btn-default">Cancel</button> -->
+					</div>
+
+				</form>
+      		</div>
+      	</div>
+      </div>
+
+      
+        <div class="searchResults">
+          <div class="col-md-3 col-sm-3 col-xs-3 filterSection">
+
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Filters</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                      <a href="#" class="list-group-item "><input type="checkbox" value="" /> Cras justo odio </a>
+                      <a href="#" class="list-group-item"><input type="checkbox" value="" /> Dapibus ac facilisis in</a>
+                      <a href="#" class="list-group-item"><input type="checkbox" value="" /> Morbi leo risus</a>
+                      <a href="#" class="list-group-item active"> <input type="checkbox" value="" checked="checked"/>Porta ac consectetur ac</a>
+                      <a href="#" class="list-group-item"><input type="checkbox" value="" /> Vestibulum at eros</a> 
+                    </div>
+                </div>
+              </div>
+
+
+          </div>
+          <div class="col-md-9 col-sm-9 col-xs-9 listResults">
+              <div class="col-md12 positiveProgress">
+
+                <div class="alert alert-success hide" role="alert">
+                <strong><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> People are happy about this topic<br/>
+                </div>
+
+                <div class="alert alert-warning hide" role="alert">
+                <strong><span class="glyphicon glyphicon-hand-right" aria-hidden="true"></span> People are neutral about this topic<br/>
+                </div>
+
+                <div class="alert alert-danger hide" role="alert">
+                <strong> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>People are sad about this topic <br/>
+                </div>
+
+                <h2><span class="label label-info ">Score :<span class="polScore lead"></span></span></h2>
+
+                <hr>
+
+              </div>
+              <ul class="resultList list-unstyled">
+                     <!-- <li class="lead">
+                          <div class="tweetHeader">
+                                <div class="userImageIcon">
+                                <img src="https://pbs.twimg.com/profile_images/668261356202799104/-Gaidizr_400x400.jpg" alt="userImageThumb" />
+                                </div>
+                                <div class="userName"> Varun Joshi </div>
+                                <div class="userDate pull-right"> December 08, 2015</div>
+                          </div>
+                          <div class="tweetBody">
+                                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</span>
+                          </div>
+                          <div class="tweetTrailer">
+                                <a href="#"><span class="label label-danger">#hashtag1</span></a> 
+                                <a href="#"><span class="label label-danger">#hashtag2</span></a> 
+                                <a href="#"><span class="label label-danger">#hashtag3</span></a> 
+                          </div>
+                     </li>
+
+                     <li class="lead">
+                          <div class="tweetHeader">
+                                <div class="userImageIcon">
+                                <img src="https://pbs.twimg.com/profile_images/668261356202799104/-Gaidizr_400x400.jpg" alt="userImageThumb" />
+                                </div>
+                                <div class="userName"> Varun Joshi </div>
+                                <div class="userDate pull-right"> December 08, 2015</div>
+                          </div>
+                          <div class="tweetBody">
+                                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</span>
+                          </div>
+                          <div class="tweetTrailer">
+                                <a href="#"><span class="label label-danger">#hashtag1</span></a> 
+                                <a href="#"><span class="label label-danger">#hashtag2</span></a> 
+                                <a href="#"><span class="label label-danger">#hashtag3</span></a> 
+                          </div>
+                     </li>
+
+                     <li class="lead">
+                          <div class="tweetHeader">
+                                <div class="userImageIcon">
+                                <img src="https://pbs.twimg.com/profile_images/668261356202799104/-Gaidizr_400x400.jpg" alt="userImageThumb" />
+                                </div>
+                                <div class="userName"> Varun Joshi </div>
+                                <div class="userDate pull-right"> December 08, 2015</div>
+                          </div>
+                          <div class="tweetBody">
+                                <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</span>
+                          </div>
+                          <div class="tweetTrailer">
+                                <a href="#"><span class="label label-danger">#hashtag1</span></a> 
+                                <a href="#"><span class="label label-danger">#hashtag2</span></a> 
+                                <a href="#"><span class="label label-danger">#hashtag3</span></a> 
+                          </div>
+                     </li> -->
+
+                    <!-- <li class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</li>
+                    <li class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</li>
+                    <li class="lead"  >Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</li>  -->
+              </ul>
+
+              <ul class="pagination">
+                <li><a href="#">1</a></li>
+                <li class="active"><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+              </ul>
+
+          </div>
+        </div>
+      
+
+
+
+
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="Bootstrap/js/bootstrap.min.js"></script>
+    <script src="Bootstrap/js/custom.js"></script>
+  </body>
+</html>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <!-- <meta charset="utf-8"> -->
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -10,6 +11,7 @@
     <!-- Bootstrap -->
     <link href="Bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="Bootstrap/css/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://css-spinners.com/css/spinner/pulse.css" type="text/css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,14 +38,16 @@
       		<div class="imageSection form-group"> 
       			
 
-<img src="Bootstrap/img/doodle.png" alt="Search On!" />
+			<img src="Bootstrap/img/doodle.png" alt="Search On!" />
       		</div>
       		<div class="searchBar">
-      			<form method="post" action="/intro/AlchemyCall">
+      			<form method="post" action="/intro_final/AlchemyCall" onkeypress="return event.keyCode != 13;">
       				
       				<div class="form-group">
 					    <input type="text" class="form-control" id="searchQueryText" name="searchQueryText" placeholder="sliceIt">
 					</div>
+					<input type="hidden" value="" id="filter" name="filter" />
+					<input type="hidden" value="" id="filterClicked" name="filterClicked" />
 					<div class="form-group searchButtons">
 					    <button type="button" class="btn btn-warning" id="searchButtonClick">Search</button>
 					    <!-- <button type="submit" class="btn btn-default">Cancel</button> -->
@@ -52,25 +56,49 @@
 				</form>
       		</div>
       	</div>
+      	<div class="loading"><div class="pulse-loader hide">
+		  Loading…
+		</div>
+		</div>
+      </div>
+      
+      <div class="summarySection panel panel-default">
+      <div class="panel-title"></div>
+      <div class="panel-body"></div>
       </div>
 
       
         <div class="searchResults">
-          <div class="col-md-3 col-sm-3 col-xs-3 filterSection">
+          <div class="col-md-3 col-sm-3 col-xs-3 filterSection hide">
 
               <div class="panel panel-primary">
                 <div class="panel-heading">
                   <h3 class="panel-title">Filters</h3>
                 </div>
-                <div class="panel-body">
-                    <div class="list-group">
-                      <a href="#" class="list-group-item "><input type="checkbox" value="" /> Cras justo odio </a>
-                      <a href="#" class="list-group-item"><input type="checkbox" value="" /> Dapibus ac facilisis in</a>
-                      <a href="#" class="list-group-item"><input type="checkbox" value="" /> Morbi leo risus</a>
-                      <a href="#" class="list-group-item active"> <input type="checkbox" value="" checked="checked"/>Porta ac consectetur ac</a>
-                      <a href="#" class="list-group-item"><input type="checkbox" value="" /> Vestibulum at eros</a> 
+	                <div class="panel-body concept_filter">
+	                <span>Concepts:</span>
+	                    <div class="list-group">
+	                      <!-- <a href="#" class="list-group-item "><input type="checkbox" value="" /> Cras justo odio </a>
+	                      <a href="#" class="list-group-item"><input type="checkbox" value="" /> Dapibus ac facilisis in</a>
+	                      <a href="#" class="list-group-item"><input type="checkbox" value="" /> Morbi leo risus</a>
+	                      <a href="#" class="list-group-item active"> <input type="checkbox" value="" checked="checked"/>Porta ac consectetur ac</a>
+	                      <a href="#" class="list-group-item"><input type="checkbox" value="" /> Vestibulum at eros</a>  -->
+	                    </div>
+	                </div>
+	                <div class="panel-body hashtag_filter">
+	                <span>Hashtags:</span>
+	                    <div class="list-group">
+	                    
+	                    
+	                    </div>
                     </div>
-                </div>
+                    <div class="panel-body lang_filter">
+                    <span>Language:</span>
+	                    <div class="list-group">
+	                    
+	                    
+	                    </div>
+                    </div>
               </div>
 
 
@@ -90,7 +118,7 @@
                 <strong> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>People are sad about this topic <br/>
                 </div>
 
-                <h2><span class="label label-info ">Score :<span class="polScore lead"></span></span></h2>
+                <h2 class="hide"><span class="label label-info ">Score :<span class="polScore lead"></span></span></h2>
 
                 <hr>
 
@@ -158,13 +186,13 @@
                     tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</li>  -->
               </ul>
 
-              <ul class="pagination">
+             <!--  <ul class="pagination">
                 <li><a href="#">1</a></li>
                 <li class="active"><a href="#">2</a></li>
                 <li><a href="#">3</a></li>
                 <li><a href="#">4</a></li>
                 <li><a href="#">5</a></li>
-              </ul>
+              </ul> -->
 
           </div>
         </div>
@@ -180,5 +208,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="Bootstrap/js/bootstrap.min.js"></script>
     <script src="Bootstrap/js/custom.js"></script>
+    <script src="Bootstrap/js/jPaginate.js"></script>
+    <script src="Bootstrap/js/readMore.js"></script>
   </body>
 </html>

@@ -49,7 +49,9 @@ public class AlchemyCall extends HttpServlet {
 		//doGet(request, response);
 		
 		String query = request.getParameter("searchQueryText");
-		//System.out.println(query);
+		String queryFilter = request.getParameter("filter");
+		System.out.println("queryFilter "+queryFilter);
+		System.out.println("query "+query);
 		PrintWriter out = response.getWriter();
 		//out.println("Joshi");
 		
@@ -63,7 +65,7 @@ public class AlchemyCall extends HttpServlet {
 		 RunBasicQueriesOnSolr runBasic = new RunBasicQueriesOnSolr(); // this is not required
 	      
 		  if(query.length() > 1){
-			  obj = runBasic.runSingleQuery(query);
+			  obj = runBasic.runSingleQuery(query,queryFilter);
 
 			  
 		  }

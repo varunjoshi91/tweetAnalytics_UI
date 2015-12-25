@@ -12,6 +12,8 @@ package com.getAllTweets.com;
         import java.io.UnsupportedEncodingException;
         import java.util.ArrayList;
         import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 /* For language detection */
         import java.io.InputStreamReader;
         import java.net.URLEncoder;
@@ -332,7 +334,67 @@ public class RunBasicQueriesOnSolr {
         return 0;
     }
 
-    public JSONObject runSingleQuery(String queryReceived){ //varun joshi run single query
+    public JSONObject runSingleQuery(String queryReceived, String queryFilter){ //varun joshi run single query
+    	System.out.println("recieved"+queryFilter);
+    	System.out.println("query "+queryReceived);
+    	JSONArray arrayJSON = new JSONArray();
+    	JSONObject objJSON = new JSONObject();
+    	charset = java.nio.charset.StandardCharsets.UTF_8.name();
+    	String lang="en";
+    	int numOfRows = 1000;
+    	try{
+    		/*String query = String.format("q=%s&fq=lang:%s&wt=json&start=0&rows=%s&indent=true&defType=edismax&fl=id,score&qf=text_%s^5+tweet_hashtags^10&pf=text_%s^50+tweet_hashtags^20",
+                    URLEncoder.encode(queryReceived, charset), URLEncoder.encode(lang, charset),
+                    URLEncoder.encode(String.valueOf(numOfRows), charset), URLEncoder.encode(lang, charset), URLEncoder.encode(lang, charset));
+*/
+    		String query;
+    		
+    		if(queryFilter == null || queryFilter.length() == 0){
+    		 query = String.format("q=%s&fq=lang:%s&wt=json&start=0&rows=%s&indent=true&facet=true&defType=edismax&fl=id,text,name,tweet_hashtags,profile_image_url_https,created_at,concept_tag,relevance_tag,polarity,polarity_confidence,facet_counts&facet.field=concept_tag&facet.field=lang&facet.field=tweet_hashtags&qf=text_%s^5+tweet_hashtags^10&pf=text_%s^50+tweet_hashtags^20",
+                    URLEncoder.encode(queryReceived, charset), URLEncoder.encode(lang, charset),
+                    URLEncoder.encode(String.valueOf(numOfRows), charset), URLEncoder.encode(lang, charset), URLEncoder.encode(lang, charset));
+    		}else{
+    		 query = String.format("q=%s&fq=lang:%s&fq=%s&wt=json&start=0&rows=%s&indent=true&facet=true&defType=edismax&fl=id,text,name,tweet_hashtags,profile_image_url_https,created_at,concept_tag,relevance_tag,polarity,polarity_confidence,facet_counts&facet.field=concept_tag&facet.field=lang&facet.field=tweet_hashtags&qf=text_%s^5+tweet_hashtags^10&pf=text_%s^50+tweet_hashtags^20",
+                    URLEncoder.encode(queryReceived, charset), URLEncoder.encode(lang, charset),URLEncoder.encode(queryFilter, charset),
+                    URLEncoder.encode(String.valueOf(numOfRows), charset), URLEncoder.encode(lang, charset), URLEncoder.encode(lang, charset));
+    		}
+    		
+
+            //String response = fetchHTTPData(twitterCoreURL, query);
+    		objJSON = fetchHTTPData(twitterCoreURL, query);
+    		
+    		System.out.println(query);
+    		
+    		
+    		Pattern p = Pattern.compile("\\[(.*?)\\]");
+    		Matcher m = p.matcher(getSummary(queryReceived));
+
+    		if(m.find()) {
+    		    System.out.println("Got it here: "+m.group(1));
+    		}
+    		
+    		//System.out.println("Mihir result: "+parseJSONandFindSentiment(objJSON.toString()));
+    		
+    		objJSON.append("query_polarity", parseJSONandFindSentiment(objJSON.toString()));
+    		objJSON.append("query_facets_concepts", parseJSONandFindFacets(objJSON.toString()).getConcept());    		//parseJSONandFindFacets
+    		objJSON.append("query_facets_lang", parseJSONandFindFacets(objJSON.toString()).getLang());    		//parseJSONandFindFacets
+    		objJSON.append("query_facets_tweetHashtags", parseJSONandFindFacets(objJSON.toString()).getTweet());    		//queryReceived getSummary
+    		objJSON.append("query_summary", getSummary(queryReceived).replace("["+m.group(1)+"]",""));
+    		objJSON.append("query_summary_title", m.group(1));
+    		
+    		//System.out.println("query "+query);
+          //  System.out.println("response "+objJSON);
+    	}
+    	catch(Exception e){
+    		System.out.println(e);
+    	}
+    	
+    	return objJSON;
+    	
+    	
+    }
+    
+    public JSONObject filterClick(String queryReceived){ //varun joshi run single query
     	//System.out.println("here");
     	JSONArray arrayJSON = new JSONArray();
     	JSONObject objJSON = new JSONObject();
@@ -345,7 +407,7 @@ public class RunBasicQueriesOnSolr {
                     URLEncoder.encode(String.valueOf(numOfRows), charset), URLEncoder.encode(lang, charset), URLEncoder.encode(lang, charset));
 */
 
-    		String query = String.format("q=%s&fq=lang:%s&wt=json&start=0&rows=%s&indent=true&facet=true&defType=edismax&fl=text_en,concept_tag,relevance_tag,polarity,polarity_confidence,facet_counts&facet.field=concept_tag&qf=text_%s^5+tweet_hashtags^10&pf=text_%s^50+tweet_hashtags^20",
+    		String query = String.format("q=%s&fq=lang:%s&wt=json&start=0&rows=%s&indent=true&facet=true&defType=edismax&fl=id,text,name,tweet_hashtags,profile_image_url_https,created_at,concept_tag,relevance_tag,polarity,polarity_confidence,facet_counts&facet.field=concept_tag&facet.field=lang&facet.field=tweet_hashtags&qf=text_%s^5+tweet_hashtags^10&pf=text_%s^50+tweet_hashtags^20",
                     URLEncoder.encode(queryReceived, charset), URLEncoder.encode(lang, charset),
                     URLEncoder.encode(String.valueOf(numOfRows), charset), URLEncoder.encode(lang, charset), URLEncoder.encode(lang, charset));
 
@@ -356,10 +418,22 @@ public class RunBasicQueriesOnSolr {
     		
     		System.out.println(query);
     		
+    		
+    		Pattern p = Pattern.compile("\\[(.*?)\\]");
+    		Matcher m = p.matcher(getSummary(queryReceived));
+
+    		if(m.find()) {
+    		    System.out.println("Got it here: "+m.group(1));
+    		}
+    		
     		//System.out.println("Mihir result: "+parseJSONandFindSentiment(objJSON.toString()));
     		
     		objJSON.append("query_polarity", parseJSONandFindSentiment(objJSON.toString()));
-    		objJSON.append("query_facets", parseJSONandFindFacets(objJSON.toString()));    		//parseJSONandFindFacets
+    		objJSON.append("query_facets_concepts", parseJSONandFindFacets(objJSON.toString()).getConcept());    		//parseJSONandFindFacets
+    		objJSON.append("query_facets_lang", parseJSONandFindFacets(objJSON.toString()).getLang());    		//parseJSONandFindFacets
+    		objJSON.append("query_facets_tweetHashtags", parseJSONandFindFacets(objJSON.toString()).getTweet());    		//queryReceived getSummary
+    		objJSON.append("query_summary", getSummary(queryReceived).replace("["+m.group(1)+"]",""));
+    		objJSON.append("query_summary_title", m.group(1));
     		
     		//System.out.println("query "+query);
           //  System.out.println("response "+objJSON);
@@ -430,14 +504,17 @@ public class RunBasicQueriesOnSolr {
     
 //  Surbhi's function
     
-    public JSONObject parseJSONandFindFacets(String responseFromSolr)
+    public MapDataStructure parseJSONandFindFacets(String responseFromSolr)
             throws JSONException {
-    	Map< String, Integer> conceptMap= new HashMap<String , Integer>(); 
+    	Map< String, Integer> conceptMap= new HashMap<String , Integer>();
+    	Map< String, Integer> lang= new HashMap<String , Integer>();
+    	Map< String, Integer> hashtags= new HashMap<String , Integer>();
         //StringBuilder trec_Response = new StringBuilder();
-        JSONObject su = new JSONObject();
+        //JSONObject su = new JSONObject();
+        MapDataStructure bleh = null;
         if (responseFromSolr.equals(""))
         {
-            return su;
+            return bleh;
         }
         //JSONObject jObj = new JSONObject(responseFromSolr).getJSONObject("responseHeader");
         JSONObject jObjFacets = new JSONObject(responseFromSolr).getJSONObject("facet_counts");
@@ -447,6 +524,8 @@ public class RunBasicQueriesOnSolr {
         //System.out.println(jObjFacets.get("facet_fields"));
         JSONObject jObjfFacets = jObjFacets.getJSONObject("facet_fields");
         JSONArray conceptTagArray= jObjfFacets.getJSONArray("concept_tag");
+        JSONArray langTagArray= jObjfFacets.getJSONArray("lang");
+        JSONArray tweetTagArray= jObjfFacets.getJSONArray("tweet_hashtags");
         
         
         for ( int i = 0 ; i < conceptTagArray.length(); i+=2)
@@ -459,6 +538,31 @@ public class RunBasicQueriesOnSolr {
        
         }
         
+        for ( int i = 0 ; i < langTagArray.length(); i+=2)
+        {
+        	String field=langTagArray.getString(i);
+        	int value=langTagArray.getInt(i+1);
+        	if(value>=2){
+        		lang.put(field, value);
+        	}
+       
+        }
+        
+        for ( int i = 0 ; i < tweetTagArray.length(); i+=2)
+        {
+        	String field=tweetTagArray.getString(i);
+        	int value=tweetTagArray.getInt(i+1);
+        	if(value>=2){
+        		hashtags.put(field, value);
+        	}
+       
+        }
+        
+        MapDataStructure obj = new MapDataStructure();
+        obj.setConcept(conceptMap);
+        obj.setLang(lang);
+        obj.setTweet(hashtags);
+        
        //System.out.println("Here lies the result"); 
        //System.out.println(conceptMap); 
        
@@ -470,8 +574,114 @@ public class RunBasicQueriesOnSolr {
        JSONObject varunObj = new JSONObject(conceptMap);
        
        //return sortByValue(conceptMap);
-        return varunObj;
+        return obj;
        }
+    
+    /**
+    *
+    * @param responseFromSolr
+    * @return
+    * @throws JSONException
+    * @throws NumberFormatException
+    */
+   public String getSummary(String query) throws IOException, JSONException {
+       //System.out.println("HIII");
+       String url = "https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&prop=revisions&rvprop=content&rvsection=0&srsearch="+URLEncoder.encode(query, "UTF-8");
+
+       URL obj = new URL(url);
+       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+       // optional default is GET
+       con.setRequestMethod("GET");
+
+       //add request header
+       con.setRequestProperty("User-Agent", USER_AGENT);
+
+       int responseCode = con.getResponseCode();
+       //System.out.println("\nSending 'GET' request to URL : " + url);
+       //System.out.println("Response Code : " + responseCode);
+       //System.out.println(con.());
+       BufferedReader in = new BufferedReader(
+               new InputStreamReader(con.getInputStream()));
+       String inputLine;
+       StringBuffer response = new StringBuffer();
+
+       while ((inputLine = in.readLine()) != null) {
+           response.append(inputLine);
+       }
+
+       in.close();
+
+       //print result
+
+       //System.out.println("varun "+response.toString());
+       JSONObject jsonObj;
+       jsonObj = new JSONObject(response.toString());
+
+
+       JSONObject n = (JSONObject) jsonObj.getJSONObject("query").getJSONArray("search").get(0);
+       String title=n.getString("title").toString();
+       System.out.println(n.getString("title").toString());// take title from here
+       //System.out.println("varun "+jsonObj.toString());
+       String summary="["+n.getString("title").toString()+"]";
+
+       String url2 = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="+URLEncoder.encode(title, "UTF-8");
+
+       URL obj2 = new URL(url2);
+       HttpURLConnection con2 = (HttpURLConnection) obj2.openConnection();
+
+       // optional default is GET
+       con2.setRequestMethod("GET");
+
+       //add request header
+       con2.setRequestProperty("User-Agent", USER_AGENT);
+
+       int responseCode2 = con2.getResponseCode();
+       //System.out.println("\nSending 'GET' request to URL : " + url2);
+       //System.out.println("Response Code : " + responseCode2);
+       //System.out.println(con.());
+       BufferedReader in2 = new BufferedReader(
+               new InputStreamReader(con2.getInputStream()));
+       String inputLine2;
+       StringBuffer response2 = new StringBuffer();
+
+       while ((inputLine2 = in2.readLine()) != null) {
+           response2.append(inputLine2);
+       }
+
+       in2.close();
+
+       //print result
+
+       System.out.println(response2.toString());
+       JSONObject jsonObj2;
+       jsonObj2 = new JSONObject(response2.toString());
+
+
+       JSONObject n2 = jsonObj2.getJSONObject("query").getJSONObject("pages");
+       Iterator<String> k=jsonObj2.getJSONObject("query").getJSONObject("pages").keys();
+       
+       if (k.hasNext())
+       {
+           summary+=n2.getJSONObject(k.next()).getString("extract");
+       }
+       //String title2=n2.getString("title").toString();
+       //System.out.println(n2.toString());
+       System.out.println(summary);
+       //System.out.println(jsonObj.toString());
+
+
+
+
+
+       return summary;
+
+   }
+
+
+
+
+    
     
     public static Map<String, Integer> sortByValue(Map<String, Integer> map) {
         List list = new LinkedList(map.entrySet());
@@ -526,4 +736,33 @@ class QueryRun {
         //runBasic.runSingleQuery("Syria attack");
     }
 
+}
+
+class MapDataStructure{
+	Map< String, Integer> concept;
+	Map< String, Integer> lang;
+	Map< String, Integer> tweet;
+	public Map<String, Integer> getConcept() {
+		return concept;
+	}
+	public void setConcept(Map<String, Integer> concept) {
+		this.concept = concept;
+	}
+	public Map<String, Integer> getLang() {
+		return lang;
+	}
+	public void setLang(Map<String, Integer> lang) {
+		this.lang = lang;
+	}
+	public Map<String, Integer> getTweet() {
+		return tweet;
+	}
+	public void setTweet(Map<String, Integer> tweet) {
+		this.tweet = tweet;
+	}
+	
+	
+	
+	
+	
 }

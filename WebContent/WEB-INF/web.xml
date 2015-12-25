@@ -46,4 +46,8 @@
     <servlet-name>AlchemyCall</servlet-name>
     <url-pattern>/AlchemyCall</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AlchemyCall</servlet-name>
+    <url-pattern>/intro_final/AlchemyCall</url-pattern>
+  </servlet-mapping>
 </web-app>

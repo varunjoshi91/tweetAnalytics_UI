@@ -54,6 +54,28 @@ background: #fff;
 .filterSection input[type=checkbox]{
 	margin-right: 10px;
 }
+.tweetTrailer > a{
+	margin-right:10px;
+}
+.panel-body > span{
+	display: block;
+    padding-left: 2px;
+    font-size: 16px;
+    padding-bottom: 8px;
+    padding-top: 5px;	
+}
+.summarySection > a{
+	margin:15px;
+}
+.summarySection .panel-title{
+	margin-top:15px;
+	margin-left:15px;
+	
+}
+.loading {
+    text-align: center;
+    margin-bottom: 20px;
+}
 /* Media queries */
 
 /* Media queries */
